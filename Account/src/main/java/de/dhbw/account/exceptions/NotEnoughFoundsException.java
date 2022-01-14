@@ -1,7 +1,9 @@
-package de.dhbw.agilesoftwaredev.exceptions;
+package de.dhbw.account.exceptions;
+
+import de.dhbw.account.Account;
 
 /**
- * Exception to be thrown when {@link de.dhbw.agilesoftwaredev.Account} is not covered.
+ * Exception to be thrown when {@link Account} is not covered.
  */
 public class NotEnoughFoundsException extends RuntimeException {
 

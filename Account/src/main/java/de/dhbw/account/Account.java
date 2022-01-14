@@ -1,6 +1,6 @@
-package de.dhbw.agilesoftwaredev;
+package de.dhbw.account;
 
-import de.dhbw.agilesoftwaredev.exceptions.NotEnoughFoundsException;
+import de.dhbw.account.exceptions.NotEnoughFoundsException;
 
 /**
  * Account class.

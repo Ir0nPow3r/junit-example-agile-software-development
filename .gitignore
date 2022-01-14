@@ -3,3 +3,6 @@
 /target/
 /DigitalLibrary/target/
 /DigitalLibrary/DigitalLibrary.iml
+/Account/target/
+/Account/Account.iml
+/FizzBuzz/FizzBuzz.iml
