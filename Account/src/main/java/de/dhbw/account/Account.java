@@ -7,13 +7,18 @@ import de.dhbw.account.exceptions.NotEnoughFoundsException;
  */
 public class Account {
 
+    private static int nextAccountNumber = 1;
+
     /**
      * Holders balance.
      */
     private double balance;
+    private final int accountNumber;
 
     public Account(double initialBalance) {
         this.balance = initialBalance;
+        this.accountNumber = nextAccountNumber;
+        nextAccountNumber++;
     }
 
     /**
@@ -65,5 +70,13 @@ public class Account {
      */
     public void setBalance(double amount) {
         this.balance = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "balance=" + balance +
+                ", accountNumber=" + accountNumber +
+                '}';
     }
 }
