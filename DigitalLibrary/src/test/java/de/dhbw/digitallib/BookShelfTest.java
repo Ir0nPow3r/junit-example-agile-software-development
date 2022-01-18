@@ -15,7 +15,6 @@ public class BookShelfTest {
     private BookShelf shelf;
     private static Book dummyBook1;
     private static Book dummyBook2;
-    private static Book dummyBook3;
 
     @BeforeAll
     static void beforeAll() {
@@ -32,7 +31,7 @@ public class BookShelfTest {
     void shelfEmptyWhenNoBookAdded() {
         //GIVEN
         //WHEN
-        List<Book> books = shelf.books();
+        List<Book> books = shelf.getBooks();
         //THEN
         assertTrue(books.isEmpty(), "BookShelf should be empty.");
     }
@@ -40,44 +39,44 @@ public class BookShelfTest {
     @Test
     void bookshelfContainsTwoBooksWhenTwoBooksAdded() {
         //GIVEN
-        long size = shelf.books().size();
+        long size = shelf.getBooks().size();
         //WHEN
         shelf.add(dummyBook1);
         shelf.add(dummyBook2);
         //THEN
-        assertEquals(size + 2, shelf.books().size(), "Bookshelf should have two books");
+        assertEquals(size + 2, shelf.getBooks().size(), "Bookshelf should have two books");
     }
 
     @Test
     void bookshelfContainsTwoBooksWhenTwoBooksSimultanouslyAdded() {
         //GIVEN
-        long size = shelf.books().size();
+        long size = shelf.getBooks().size();
         //WHEN
         shelf.add(dummyBook1, dummyBook2);
         //THEN
-        assertEquals(size + 2, shelf.books().size(), "Bookshelf should have two books");
+        assertEquals(size + 2, shelf.getBooks().size(), "Bookshelf should have two books");
     }
 
     @Test
     void removeShouldRemoveBook() {
         //GIVEN
         shelf.add(dummyBook1, dummyBook2);
-        long size = shelf.books().size();
+        long size = shelf.getBooks().size();
         //WHEN
         shelf.remove(dummyBook1);
         //THEN
-        assertEquals(shelf.books().size(), size - 1);
+        assertEquals(shelf.getBooks().size(), size - 1);
     }
 
     @Test
     void removeShouldDoNothingWhenBookNotInShelf() {
         //GIVEN
         shelf.add(dummyBook1);
-        long size = shelf.books().size();
+        long size = shelf.getBooks().size();
         //WHEN
         shelf.remove(dummyBook2);
         //THEN
-        assertEquals(shelf.books().size(), size);
+        assertEquals(shelf.getBooks().size(), size);
     }
 
     @Test
