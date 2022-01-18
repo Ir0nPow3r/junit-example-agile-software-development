@@ -1,8 +1,10 @@
 package de.dhbw.digitallib;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class BookShelfTest {
 
     private BookShelf shelf;
+    private static Book dummyBook1;
+    private static Book dummyBook2;
+    private static Book dummyBook3;
+
+    @BeforeAll
+    static void beforeAll() {
+        dummyBook1 = new Book("Raoul-Gabriel Urma", "Modern Java in Action!", LocalDate.of(2018, 9,1));
+        dummyBook2 = new Book("Morgan Bruce", "Microservices in Action!", LocalDate.of(2018, 10,1));
+    }
 
     @BeforeEach
     void setUp() {
@@ -19,40 +30,74 @@ public class BookShelfTest {
 
     @Test
     void shelfEmptyWhenNoBookAdded() {
-        List<String> books = shelf.books();
+        //GIVEN
+        //WHEN
+        List<Book> books = shelf.books();
+        //THEN
         assertTrue(books.isEmpty(), "BookShelf should be empty.");
     }
 
     @Test
     void bookshelfContainsTwoBooksWhenTwoBooksAdded() {
-        shelf.add("JUnit 5");
-        shelf.add("Clean Code");
-        List<String> books = shelf.books();
-        assertEquals(2, books.size(), "Bookshelf should have two books");
+        //GIVEN
+        long size = shelf.books().size();
+        //WHEN
+        shelf.add(dummyBook1);
+        shelf.add(dummyBook2);
+        //THEN
+        assertEquals(size + 2, shelf.books().size(), "Bookshelf should have two books");
     }
 
     @Test
     void bookshelfContainsTwoBooksWhenTwoBooksSimultanouslyAdded() {
-        shelf.add("JUnit 5", "Clean Code");
-        List<String> books = shelf.books();
-        assertEquals(2, books.size(), "Bookshelf should have two books");
+        //GIVEN
+        long size = shelf.books().size();
+        //WHEN
+        shelf.add(dummyBook1, dummyBook2);
+        //THEN
+        assertEquals(size + 2, shelf.books().size(), "Bookshelf should have two books");
     }
 
     @Test
     void removeShouldRemoveBook() {
-        shelf.add("Junit 5", "Clean Code");
+        //GIVEN
+        shelf.add(dummyBook1, dummyBook2);
         long size = shelf.books().size();
-        shelf.remove("Clean Code");
-        List<String> books = shelf.books();
-        assertEquals(books.size(), size - 1);
+        //WHEN
+        shelf.remove(dummyBook1);
+        //THEN
+        assertEquals(shelf.books().size(), size - 1);
     }
 
     @Test
     void removeShouldDoNothingWhenBookNotInShelf() {
-        shelf.add("Junit 5", "Clean Code");
+        //GIVEN
+        shelf.add(dummyBook1);
         long size = shelf.books().size();
-        shelf.remove("Spring in Action!");
-        List<String> books = shelf.books();
-        assertEquals(books.size(), size);
+        //WHEN
+        shelf.remove(dummyBook2);
+        //THEN
+        assertEquals(shelf.books().size(), size);
+    }
+
+    @Test
+    void findByAuthor_Should_returnCorrectAmountOfBooks() {
+        //GIVEN
+        shelf.add(dummyBook1, dummyBook2);
+        //WHEN
+        List<Book> authorBooks = shelf.findByAuthor("Bruce");
+        //THEN
+        assertEquals(authorBooks.size(), 1);
+        assertEquals(authorBooks.get(0), dummyBook2);
+    }
+
+    @Test
+    void findByAuthor_should_returnNoBooksIfNoMatches() {
+        //GIVEN
+        shelf.add(dummyBook1, dummyBook2);
+        //WHEN
+        List<Book> authorBooks = shelf.findByAuthor("J.R.R Tolkien");
+        //THEN
+        assertEquals(authorBooks.size(), 0);
     }
 }
